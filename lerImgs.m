@@ -19,10 +19,11 @@ resposta = [];
         file = strcat('C:\Users\arion\Documents\PUC 2-2018\Visão por Computação\imagens','\s');
         filename = strcat(file,int2str(ret));
         cd(filename)
-        for k = 1:50 %quantidade de aprendizagem
+        for k = 1:70 %quantidade de aprendizagem
             x = imread(strcat(int2str(k),'.png'));
             g = rgb2gray(x);
             x = g;   %transformando imagem em escala de cinza
+            x = edge(x, 'canny');
             y = reshape(x,[size(x,1)*size(x,2),1]);
             z = [z , y];
             resposta = [resposta,ret];

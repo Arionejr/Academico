@@ -4,9 +4,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear all, close all
-acert = 0;
-erro  = 0;
-estat = 0;
+acert  = 0;
+erro   = 0;
+estat  = 0;
+estat2 = 0;
 
 [data,resposta] = lerImgs;
 
@@ -23,6 +24,8 @@ while(i)
     end
     %1º parâmetro: endereço da pasta de imagens
     x = imread(strcat('C:\Users\arion\Documents\PUC 2-2018\Visão por Computação\imagens',strcat('\',im)));
+    g = rgb2gray(x);
+    x = g;   %transformando imagem em escala de cinza
     d = Classificar(PC, ProjetarAmostra(x,mn,P));
     
     figure;
@@ -35,43 +38,51 @@ for ret = 1:3  % pastas
     file = strcat('C:\Users\arion\Documents\PUC 2-2018\Visão por Computação\imagens','\s');
     filename = strcat(file,int2str(ret));
     cd(filename)
-    for k = 51:100 %quantidade de testes realizados
+    for k = 71:100 %quantidade de testes realizados
         im = sprintf('s%d/%d.png',ret,k);
         x = imread(strcat('C:\Users\arion\Documents\PUC 2-2018\Visão por Computação\imagens',strcat('\',im)));
+        g = rgb2gray(x);
+        x = g;
         d = Classificar(PC, ProjetarAmostra(x,mn,P));
         if (resposta(d) == ret)
-            acert = acert+1;
+            acert = acert + 1;
         else
-            erro  = erro+1;
+            erro  = erro  + 1;
         end
     end
 end
 
-
-
 %        -- FIM --
-
 
 % -- APRESENTACAO DE RESPOSTA --
 % OBS: criar variavel com quantidade de testes.
-estat = round(((acert/150)*100),2) % ESTATISTICA EM PERCENTUAL DE ACERTO
-estat2 = round(((erro/150)*100),2) % ESTATISTICA EM PERCENTUAL DE ERRO
+estat  = round(((acert/90)*100),2) % ESTATISTICA EM PERCENTUAL DE ACERTO
+estat2 = round(((erro/90)*100),2) % ESTATISTICA EM PERCENTUAL DE ERRO
 
-resposta = [acert,erro,estat];
+valor = [acert,erro,estat];
 graph = [estat,estat2];
 plottype = 'pie3';
+
 % GRAFICO DE PIZZA
-disp(resposta);
+disp(valor);
 pie3(graph);
 title('Pie Chart');
+
 % GRAFICO DE BARRAS
 %bar(graph);
 %title('Bar Graph');
 
+clear im, clear x, clear d
 
+% AMOSTRAGEM 
+%  date 07/11/2018
+%  10 DE CADA PASTA = 40%
+%  30 DE CADA PASTA = 47%
+%  50 DE CADA PASTA = 52%
+%  70 DE CADA PASTA = 54%
+
+%       -- canny --
+%  date 07/11/2018
+%  70 DE CADA PASTA = 58%
 
 %         -- FIM --
-
-
-
-%end
